@@ -18,7 +18,7 @@
   <compatibility>
     <ver>5.67</ver>
   </compatibility>
-  <comments></comments>
+  <comments/>
   <classloader>
     <psr0 prefix="CRM_" path="."/>
     <psr4 prefix="Civi\" path="Civi"/>

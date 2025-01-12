@@ -16,6 +16,7 @@ class CRM_Mahjgdpr_Form_Settings extends CRM_Core_Form {
 
   public function postProcess(): void {
     $values = $this->exportValues();
+
     \Civi::settings()->set('mahjgdpr_newsletter_group', $values['newslettergroup']);
     \Civi::settings()->set('mahjgdpr_email_domains', $values['emailsuffexes']);
 

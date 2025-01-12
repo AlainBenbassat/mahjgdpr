@@ -9,6 +9,18 @@ class CRM_Mahjgdpr_Group {
     $this->fillTargetGroupId();
   }
 
+  public static function clearTargetGroup() {
+
+  }
+
+  public static function populateTargetGroup() {
+
+  }
+
+  public static function removeActiveContactsFromTargetGroup() {
+
+  }
+
   private function fillTargetGroupId() {
     $this->targetGroupId = $this->getTargetGroupId() || $this->createTargetGroup();
   }
