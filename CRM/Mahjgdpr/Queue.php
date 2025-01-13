@@ -9,7 +9,7 @@ class CRM_Mahjgdpr_Queue {
     self::addTaskRemoveActiveContacts($queue);
 
     $queueRunner = self::getQueueRunner($queue);
-    $queueRunner->runAllInteractive();
+    $queueRunner->runAllViaWeb();
   }
 
   private static function getQueue() {
@@ -17,6 +17,7 @@ class CRM_Mahjgdpr_Queue {
       'type'  => 'Sql',
       'reset' => TRUE,
       'error' => 'abort',
+      'runner' => 'task',
     ]);
   }
 
@@ -27,7 +28,7 @@ class CRM_Mahjgdpr_Queue {
       'errorMode' => CRM_Queue_Runner::ERROR_ABORT,
       'onEnd' => ['CRM_Mahjgdpr_Queue', 'onEnd'],
       'onEndUrl' => CRM_Utils_System::url('civicrm', 'reset=1'),
-    ], FALSE, NULL, FALSE);
+    ]);
   }
 
   private static function addTaskClearTargetGroup($queue) {
