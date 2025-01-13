@@ -13,7 +13,8 @@ class CRM_Mahjgdpr_Queue {
   }
 
   private static function getQueue() {
-    return \Civi::queue('mahjgdpr-queue', [
+    return CRM_Queue_Service::singleton()->create([
+      'name' => 'mahjgdpr-queue',
       'type'  => 'Sql',
       'reset' => TRUE,
       'error' => 'abort',
