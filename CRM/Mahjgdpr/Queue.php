@@ -47,7 +47,7 @@ class CRM_Mahjgdpr_Queue {
     $queue->createItem($task);
   }
 
-  public static function onEnd(CRM_Queue_Queue $queue) {
+  public static function onEnd(CRM_Queue_TaskContext $ctx) {
     CRM_Core_Session::setStatus('queue is ok');
   }
 }
