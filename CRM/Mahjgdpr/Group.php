@@ -10,15 +10,15 @@ class CRM_Mahjgdpr_Group {
   }
 
   public static function clearTargetGroup() {
-
+    return TRUE;
   }
 
   public static function populateTargetGroup() {
-
+    return TRUE;
   }
 
   public static function removeActiveContactsFromTargetGroup() {
-
+    return TRUE;
   }
 
   private function fillTargetGroupId() {
