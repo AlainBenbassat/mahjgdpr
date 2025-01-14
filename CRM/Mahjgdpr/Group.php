@@ -30,6 +30,7 @@ class CRM_Mahjgdpr_Group {
       ->addWhere('group_id', '=', $newsletterGroup)
       ->addWhere('contact_id.contact_type', '=', 'Individual')
       ->addWhere('contact_id.created_date', '<=', $cutoffDate)
+      ->setLimit(500)
       ->execute();
     foreach ($groupContacts as $groupContact) {
       if ($this->isGdprDomain($groupContact['email.email'])) {
