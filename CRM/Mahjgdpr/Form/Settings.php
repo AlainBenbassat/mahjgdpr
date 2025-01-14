@@ -18,7 +18,8 @@ class CRM_Mahjgdpr_Form_Settings extends CRM_Core_Form {
     $values = $this->exportValues();
 
     \Civi::settings()->set('mahjgdpr_newsletter_group', $values['newslettergroup']);
-    \Civi::settings()->set('mahjgdpr_email_domains', $values['emailsuffexes']);
+    \Civi::settings()->set('mahjgdpr_email_domains', $this->removeInvalidDomainsFromList($values['emailsuffexes']));
+    \Civi::settings()->set('mahjgdpr_cutoff_creation_date', $values['cutoffcreationdate']);
 
     parent::postProcess();
   }
@@ -26,6 +27,7 @@ class CRM_Mahjgdpr_Form_Settings extends CRM_Core_Form {
   private function addFormElements() {
     $this->add('select', 'newslettergroup', 'Groupe newsletter', CRM_Core_PseudoConstant::nestedGroup(), ['class' => 'crm-select2 crm-action-menu fa-plus huge'], TRUE);
     $this->add('textarea', 'emailsuffexes', 'Noms de domaine à prendre en compte', ['class' => 'big'], TRUE);
+    $this->add('datepicker', 'cutoffcreationdate', 'Contacts créées avant', [], TRUE);
   }
 
   private function addFormButtons() {
@@ -58,6 +60,16 @@ class CRM_Mahjgdpr_Form_Settings extends CRM_Core_Form {
       $defaults['emailsuffexes'] = $emailDomains;
     }
 
+    $cutoffDate = \Civi::settings()->get('mahjgdpr_cutoff_creation_date');
+    if (!empty($cutoffDate)) {
+      $defaults['cutoffcreationdate'] = $cutoffDate;
+    }
+    else {
+      $currentYear = (int)date('Y');
+      $curroffYear = $currentYear - 3;
+      $defaults['cutoffcreationdate'] = $curroffYear . '-01-01';
+    }
+
     return $defaults;
   }
 
@@ -68,6 +80,19 @@ class CRM_Mahjgdpr_Form_Settings extends CRM_Core_Form {
     $groupTitle = $gdprGroup::targetGroupTitle;
 
     return "<a href=\"$url\">$groupTitle</a>";
+  }
+
+  private function removeInvalidDomainsFromList($list) {
+    $domains = explode("\n", $list);
+    $cleanedDomains = [];
+
+    foreach ($domains as $domain) {
+      if (!empty($domain)) {
+        $cleanedDomains[] = trim($domain);
+      }
+    }
+
+    return implode("\n", $cleanedDomains);
   }
 
   private function getRenderableElementNames(): array {

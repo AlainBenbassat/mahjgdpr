@@ -33,21 +33,39 @@ class CRM_Mahjgdpr_Queue {
   }
 
   private static function addTaskClearTargetGroup($queue) {
-    $task = new CRM_Queue_Task(['CRM_Mahjgdpr_Group', 'clearTargetGroup']);
+    $task = new CRM_Queue_Task(['CRM_Mahjgdpr_Queue', 'clearTargetGroup']);
     $queue->createItem($task);
   }
 
   private static function addTaskFindContactsWithPersonalEmail($queue) {
-    $task = new CRM_Queue_Task(['CRM_Mahjgdpr_Group', 'populateTargetGroup']);
+    $task = new CRM_Queue_Task(['CRM_Mahjgdpr_Queue', 'populateTargetGroup']);
     $queue->createItem($task);
   }
 
   private static function addTaskRemoveActiveContacts($queue) {
-    $task = new CRM_Queue_Task(['CRM_Mahjgdpr_Group', 'removeActiveContactsFromTargetGroup']);
+    $task = new CRM_Queue_Task(['CRM_Mahjgdpr_Queue', 'removeActiveContactsFromTargetGroup']);
     $queue->createItem($task);
   }
 
   public static function onEnd(CRM_Queue_TaskContext $ctx) {
     CRM_Core_Session::setStatus('queue is ok');
+  }
+
+  public static function clearTargetGroup() {
+    $group = new CRM_Mahjgdpr_Group();
+    $group->clear();
+
+    return TRUE;
+  }
+
+  public static function populateTargetGroup() {
+    $group = new CRM_Mahjgdpr_Group();
+    $group->populate();
+
+    return TRUE;
+  }
+
+  public static function removeActiveContactsFromTargetGroup() {
+    return TRUE;
   }
 }
