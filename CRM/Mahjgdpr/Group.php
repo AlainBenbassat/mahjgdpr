@@ -32,7 +32,7 @@ class CRM_Mahjgdpr_Group {
       ->addWhere('contact_id.created_date', '<=', $cutoffDate)
       ->execute();
     foreach ($groupContacts as $groupContact) {
-      if ($groupContact['email.email']) {
+      if ($this->isGdprDomain($groupContact['email.email'])) {
         \Civi\Api4\GroupContact::create(FALSE)
           ->addValue('group_id', $this->targetGroupId)
           ->addValue('contact_id', $groupContact['contact_id'])
@@ -77,7 +77,7 @@ class CRM_Mahjgdpr_Group {
 
   private function isGdprDomain($email) {
     foreach ($this->emailDomains as $domain) {
-      if (strpos($email, $domain) !== FALSE) {
+      if (str_contains($email, $domain)) {
         return TRUE;
       }
     }
