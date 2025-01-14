@@ -26,7 +26,7 @@ class CRM_Mahjgdpr_Group {
 
     $groupContacts = \Civi\Api4\GroupContact::get(FALSE)
       ->addSelect('contact_id', 'email.email')
-      ->addJoin('Email AS email', 'INNER', ['contact_id', '=', 'email.id'], ['email.is_primary', '=', 1])
+      ->addJoin('Email AS email', 'INNER', ['contact_id', '=', 'email.contact_id'], ['email.is_primary', '=', 1])
       ->addWhere('group_id', '=', $newsletterGroup)
       ->addWhere('contact_id.contact_type', '=', 'Individual')
       ->addWhere('contact_id.created_date', '<=', $cutoffDate)
