@@ -44,7 +44,10 @@ class CRM_Mahjgdpr_Group {
   }
 
   private function fillTargetGroupId() {
-    $this->targetGroupId = $this->getTargetGroupId() || $this->createTargetGroup();
+    $this->targetGroupId = $this->getTargetGroupId();
+    if (!$this->targetGroupId) {
+      $this->targetGroupId = $this->createTargetGroup();
+    }
   }
 
   private function getTargetGroupId() {
@@ -54,7 +57,7 @@ class CRM_Mahjgdpr_Group {
       ->execute()
       ->first();
 
-    return $group['id'] ?? FALSE;
+    return !empty($group['id']) ? $group['id'] : FALSE;
   }
 
   private function createTargetGroup() {
