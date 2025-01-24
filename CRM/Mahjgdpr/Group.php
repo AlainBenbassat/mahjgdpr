@@ -19,7 +19,7 @@ class CRM_Mahjgdpr_Group {
   }
 
   public function populate() {
-    $newsletterGroup = \Civi::settings()->get('mahjgdpr_newsletter_group');
+    $newsletterGroups = \Civi::settings()->get('mahjgdpr_newsletter_group');
     $cutoffDate = \Civi::settings()->get('mahjgdpr_cutoff_creation_date');
 
     $this->fillEmailDomains();
@@ -27,21 +27,16 @@ class CRM_Mahjgdpr_Group {
     $groupContacts = \Civi\Api4\GroupContact::get(FALSE)
       ->addSelect('contact_id', 'email.email')
       ->addJoin('Email AS email', 'INNER', ['contact_id', '=', 'email.contact_id'], ['email.is_primary', '=', 1])
-      ->addWhere('group_id', '=', $newsletterGroup)
+      ->addWhere('group_id', 'IN', $newsletterGroups)
       ->addWhere('contact_id.contact_type', '=', 'Individual')
       ->addWhere('contact_id.created_date', '<=', $cutoffDate)
       ->setLimit(500)
       ->execute();
     foreach ($groupContacts as $groupContact) {
-      if ($this->isGdprDomain($groupContact['email.email'])) {
-        \Civi\Api4\GroupContact::create(FALSE)
-          ->addValue('group_id', $this->targetGroupId)
-          ->addValue('contact_id', $groupContact['contact_id'])
-          ->addValue('status', 'Added')
-          ->execute();
+      if ($this->isGdprDomain($groupContact['email.email']) && $this->isIsolatedContact($groupContact['contact_id'])) {
+        $this->addContact($groupContact['contact_id']);
       }
     }
-
   }
 
   private function fillTargetGroupId() {
@@ -84,6 +79,48 @@ class CRM_Mahjgdpr_Group {
     }
 
     return FALSE;
+  }
+
+  private function addContact($contactId): void {
+    \Civi\Api4\GroupContact::create(FALSE)
+      ->addValue('group_id', $this->targetGroupId)
+      ->addValue('contact_id', $contactId)
+      ->addValue('status', 'Added')
+      ->execute();
+  }
+
+  public function isIsolatedContact($contactId): bool {
+    $contact = new CRM_Mahjgdpr_Contact($contactId);
+
+    if ($contact->hasEventRegistrations()) {
+      return FALSE;
+    }
+
+    if ($contact->hasContributions()) {
+      return FALSE;
+    }
+
+    if ($contact->hasMemberships()) {
+      return FALSE;
+    }
+
+    if ($contact->hasContributions()) {
+      return FALSE;
+    }
+
+    if ($contact->hasOpenedMailings()) {
+      return FALSE;
+    }
+
+    if ($contact->hasClicks()) {
+      return FALSE;
+    }
+
+    if ($contact->wantsToBeKeptInDatebase()) {
+      return FALSE;
+    }
+
+    return TRUE;
   }
 
 }

@@ -25,7 +25,7 @@ class CRM_Mahjgdpr_Form_Settings extends CRM_Core_Form {
   }
 
   private function addFormElements() {
-    $this->add('select', 'newslettergroup', 'Groupe newsletter', CRM_Core_PseudoConstant::nestedGroup(), ['class' => 'crm-select2 crm-action-menu fa-plus huge'], TRUE);
+    $this->add('select', 'newslettergroup', 'Groupe(s) newsletter', CRM_Core_PseudoConstant::nestedGroup(), TRUE, ['multiple' => 'multiple', 'class' => 'crm-select2 crm-action-menu fa-plus huge']);
     $this->add('textarea', 'emailsuffexes', 'Noms de domaine à prendre en compte', ['class' => 'big'], TRUE);
     $this->add('datepicker', 'cutoffcreationdate', 'Contacts créées avant', [], TRUE);
   }
