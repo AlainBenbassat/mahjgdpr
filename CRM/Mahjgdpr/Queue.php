@@ -48,7 +48,13 @@ class CRM_Mahjgdpr_Queue {
   }
 
   public static function onEnd(CRM_Queue_TaskContext $ctx) {
-    CRM_Core_Session::setStatus('queue is ok');
+    $gdprGroup = new CRM_Mahjgdpr_Group();
+
+    $url = CRM_Utils_System::url('civicrm/group/search', 'reset=1&force=1&context=smog&component_mode=1&gid=' . $gdprGroup->targetGroupId);
+    $groupTitle = $gdprGroup::targetGroupTitle;
+
+    $msg = "Terminé. Voir groupe <a href=\"$url\">$groupTitle</a>";
+    CRM_Core_Session::setStatus($msg, '', 'success');
   }
 
   public static function clearTargetGroup() {
