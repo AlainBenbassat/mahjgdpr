@@ -39,6 +39,13 @@ class CRM_Mahjgdpr_Group {
     }
   }
 
+  public function removeContact($contactId) {
+    \Civi\Api4\GroupContact::delete(FALSE)
+      ->addValue('group_id', $this->targetGroupId)
+      ->addValue('contact_id', $contactId)
+      ->execute();
+  }
+
   private function fillTargetGroupId() {
     $this->targetGroupId = $this->getTargetGroupId();
     if (!$this->targetGroupId) {

@@ -18,6 +18,9 @@ function mahjgdpr_civicrm_custom( $op, $groupID, $entityID, &$params ) {
   $dao = CRM_Core_DAO::executeQuery($sql);
   if ($dao->fetch()) {
     CRM_Core_DAO::executeQuery("update civicrm_value_rgpd_23 set accord_rgpd_141 = now() where id = " . $dao->id);
+
+    $g = new CRM_Mahjgdpr_Group();
+    $g->removeContact($entityID);
   }
 }
 
