@@ -89,11 +89,16 @@ class CRM_Mahjgdpr_Group {
   }
 
   private function addContact($contactId): void {
-    \Civi\Api4\GroupContact::create(FALSE)
-      ->addValue('group_id', $this->targetGroupId)
-      ->addValue('contact_id', $contactId)
-      ->addValue('status', 'Added')
-      ->execute();
+    try {
+      \Civi\Api4\GroupContact::create(FALSE)
+        ->addValue('group_id', $this->targetGroupId)
+        ->addValue('contact_id', $contactId)
+        ->addValue('status', 'Added')
+        ->execute();
+    }
+    catch (\Exception $e) {
+      // don't do anything
+    }
   }
 
   public function isIsolatedContact($contactId): bool {
