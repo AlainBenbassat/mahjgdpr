@@ -41,8 +41,8 @@ class CRM_Mahjgdpr_Group {
 
   public function removeContact($contactId) {
     \Civi\Api4\GroupContact::delete(FALSE)
-      ->addWhere('group_id', $this->targetGroupId)
-      ->addWhere('contact_id', $contactId)
+      ->addWhere('group_id', '=', $this->targetGroupId)
+      ->addWhere('contact_id', '=', $contactId)
       ->execute();
   }
 
