@@ -17,7 +17,7 @@ function mahjgdpr_civicrm_custom( $op, $groupID, $entityID, &$params ) {
   $sql = "select * from civicrm_value_rgpd_23 where entity_id = $entityID and ifnull(date_de_confirmation_142, '') = '' and accord_rgpd_141 = 1";
   $dao = CRM_Core_DAO::executeQuery($sql);
   if ($dao->fetch()) {
-    CRM_Core_DAO::executeQuery("update civicrm_value_rgpd_23 set accord_rgpd_141 = now() where id = " . $dao->id);
+    CRM_Core_DAO::executeQuery("update civicrm_value_rgpd_23 set date_de_confirmation_142 = now() where id = " . $dao->id);
 
     $g = new CRM_Mahjgdpr_Group();
     $g->removeContact($entityID);
