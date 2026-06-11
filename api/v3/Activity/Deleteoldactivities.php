@@ -23,6 +23,7 @@ function civicrm_api3_activity_Deleteoldactivities($params) {
   $sql = "DELETE FROM civicrm_activity WHERE activity_date_time < DATE_SUB(NOW(), INTERVAL $days DAY)";
   CRM_Core_DAO::executeQuery($sql);
   CRM_Core_DAO::executeQuery('OPTIMIZE TABLE civicrm_activity');
+  CRM_Core_DAO::executeQuery('OPTIMIZE TABLE civicrm_activity_contact');
 
   return civicrm_api3_create_success($returnValues, $params, 'Activity', 'Deleteoldactivities');
 }
