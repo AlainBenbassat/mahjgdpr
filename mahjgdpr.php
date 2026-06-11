@@ -24,7 +24,6 @@ function mahjgdpr_civicrm_custom( $op, $groupID, $entityID, &$params ) {
   }
 }
 
-
 /**
  * Implements hook_civicrm_config().
  *
