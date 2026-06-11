@@ -10,7 +10,7 @@ URL: /civicrm/mahjgdpr/settings
 - Specify the email domains to search for. (e.g. @aol.com, @gmail.com...)
 - When the contact was created
 
-Contacts created before the specified date AND with the specified email domain AND who are a member of the specified newsletter group, will be added to the group "RGPD Contacts à relancer".
+Contacts created before the specified date AND with the specified email domain AND who are a member of the specified newsletter group, will be added to the group "RGPD Contacts à relancer". See /civicrm/mahjgdpr/contact-search.
 
 ### Ask for confirmation
 
