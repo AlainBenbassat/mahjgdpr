@@ -24,5 +24,5 @@ function civicrm_api3_event_Deleteoldevents($params) {
   CRM_Core_DAO::executeQuery('OPTIMIZE TABLE civicrm_event');
   CRM_Core_DAO::executeQuery('OPTIMIZE TABLE civicrm_participant');
 
-  return civicrm_api3_create_success($returnValues, $params, 'Event', 'Deleteoldevents');
+  return civicrm_api3_create_success([], $params, 'Event', 'Deleteoldevents');
 }

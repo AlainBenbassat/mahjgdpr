@@ -25,5 +25,5 @@ function civicrm_api3_activity_Deleteoldactivities($params) {
   CRM_Core_DAO::executeQuery('OPTIMIZE TABLE civicrm_activity');
   CRM_Core_DAO::executeQuery('OPTIMIZE TABLE civicrm_activity_contact');
 
-  return civicrm_api3_create_success($returnValues, $params, 'Activity', 'Deleteoldactivities');
+  return civicrm_api3_create_success([], $params, 'Activity', 'Deleteoldactivities');
 }
